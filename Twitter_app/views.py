@@ -21,19 +21,12 @@ def login(request):
         else:
             return render(request, "login.html", {"message": "Invalid credentials."})
     return render(request, "login.html")  
-def logouuser(request):
-    logout(request)
-    return redirect("/login") 
 
-def register(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        password = request.POST.get("password")
-        user = EndUser.objects.create_user(
-            name=name, email=email, phone=phone, password=password)
-        user.save()
-        return redirect("/")
-    return render(request, "register.html")
-    
+
+def logoutuser(request):
+    logout(request)
+    return redirect("login") 
+
+
+def google_logout(request):
+    return redirect('https://accounts.google.com/logout')
