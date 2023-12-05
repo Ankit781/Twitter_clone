@@ -5,11 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/twitter.css">
+    <meta name="google-signin-client_id"
+        content="551743730468-33b1gr7qjovm05lvgvgogmu271qdrqra.apps.googleusercontent.comapps.googleusercontent.com">
     <title>Document</title>
+    <!--Apple sign in requirements  -->
+    <meta name="appleid-signin-client-id" content="[CLIENT_ID]">
+    <meta name="appleid-signin-scope" content="[SCOPES]">
+    <meta name="appleid-signin-redirect-uri" content="[REDIRECT_URI]">
+    <meta name="appleid-signin-state" content="[STATE]">
+    <meta name="appleid-signin-nonce" content="[NONCE]">
+    <meta name="appleid-signin-use-popup" content="true">
 
 </head>
 
 <body>
+
     <div class="twitter">
         <svg viewBox="0 0 24 24" aria-hidden="true"
             class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1nao33i r-rxcuwo r-1777fci r-m327ed r-494qqr">
@@ -22,14 +32,24 @@
     </div>
 
     <div class="login">
-        <h1 style="color: aliceblue;">Happening Now</h1>
-        <h5 style="color: aliceblue;">Join Today.</h5>
-        <!-- your_template.html -->
+        <h1>Happening Now</h1>
+        <h5>Join Today.</h5>
 
-        <a class="google-login" href="{% url 'social:begin' 'google-oauth2' %}">Sign in with Google</a>
+        {% load static%}
+        {% load socialaccount %}
+        <a class="google-login-button " href="{% provider_login_url 'google' %}"
+            style=" background-color: white;border-radius: 40px;text-decoration: none;width:300px;display: inline-block;margin-top:20px;">
+            <img src="{% static 'img/7123025_logo_google_g_icon.png' %}" alt="Google Login"
+                style="vertical-align: middle;height:100px;height:40px;position:relative;left:60px;" />
+            <h4> Sign up with
+                google <h4>
+        </a>
 
-
-
+        <div class="line-with-text">
+            <hr>
+            <div class="text">or</div>
+            <hr>
+        </div>
     </div>
 </body>
 

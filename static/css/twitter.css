@@ -7,24 +7,33 @@ body {
     align-items: center;
     height: 800px;
     width: 50%;
-    margin-left: 300px;
+    margin-left: 250px;
+    position: relative;
+    top: 50px;
 
 }
 
 .login {
     position: relative;
-    left: 1200px;
+    left: 900px;
     bottom: 500px;
 }
 
 div {
     display: inline-block;
-
 }
 
-h1,
+h1 {
+    color: aliceblue;
+    font-size: 60px;
+    margin: 0px 0px 20px 0px;
+}
+
 h5 {
     color: aliceblue;
+    font-size: 30px;
+    margin: 40px 0px 20px 0px;
+
 }
 
 .google-login {
@@ -51,6 +60,7 @@ h5 {
 
 .r-lrvibr {
     -webkit-user-select: none;
+    user-select: none;
 }
 
 .r-dnmrzs {
@@ -75,4 +85,40 @@ h5 {
 
 .r-494qqr {
     padding-top: 32px;
+}
+
+a>h4 {
+    display: inline-block;
+    position: relative;
+    left: 60px;
+    margin: 0px;
+    color: black;
+}
+
+.line-with-text {
+    display: flex;
+    align-items: center;
+    position: relative;
+    bottom: 40px;
+}
+
+.line {
+    width: 120px;
+    background-color: white;
+    margin: 0 10px;
+    /* Adjust the margin as needed */
+}
+
+.text {
+    white-space: nowrap;
+    color: white;
+    position: relative;
+    /* Prevent text from wrapping */
+}
+
+hr {
+    margin: 10px;
+    width: 120px;
+    color: whitesmoke;
+    opacity: 0.5;
 }
