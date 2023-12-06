@@ -7,9 +7,9 @@ from django.contrib import messages
 
 
 def index(request):
-    if request.user.is_anonymous:
-        return redirect("/login")
-    return render(request, 'index.html')
+    # if request.user.is_anonymous:
+    #     return redirect("/login")
+    return render(request, 'index.html', {'profile': profile})
 
 
 def login(request):
@@ -32,3 +32,13 @@ def logoutuser(request):
 def profile_list(request):
     profiles = Profile.objects.exclude(user = request.user)
     return render(request, 'profile_list.html', {"profiles": profiles})
+
+
+def profile(request, pk):
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user_id = pk)
+        print("Profile information :" ,profile)
+        return render(request, 'profile_page.html', {'profile': profile})
+    else:
+        messages.success(request, "You mnust be login to vie this page")
+        return redirect('index')    

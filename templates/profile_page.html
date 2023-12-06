@@ -1,0 +1,19 @@
+{%  extends "base.html" %}
+{% load static%}
+
+
+{%block content %}
+
+{% if profile%}
+
+<h1> {{ profile.user.username}}'s profile </h1>
+
+<strong> Follows</strong><br/> 
+{% for following in profile.follows.all %}
+    @{{ following }} <br/>
+    
+    {% endfor%}
+<strong> Followed By</strong>
+
+{%endif%}
+{% endblock %}
