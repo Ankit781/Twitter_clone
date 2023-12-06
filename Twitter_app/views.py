@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from .models import Profile
+from django.contrib import messages
 # Create your views here.
 
 
@@ -27,6 +29,6 @@ def logoutuser(request):
     logout(request)
     return redirect("login") 
 
-
-def google_logout(request):
-    return redirect('https://accounts.google.com/logout')
+def profile_list(request):
+    profiles = Profile.objects.exclude(user = request.user)
+    return render(request, 'profile_list.html', {"profiles": profiles})

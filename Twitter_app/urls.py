@@ -6,6 +6,6 @@ urlpatterns = [
     path('login', views.login ,name='login'),
     path('logout', views.logoutuser, name='logout'),
     path('', views.index, name='index'),
-    path('', views.google_logout, name='google_logout')
-    # path('register', views.register, name="register"),
+    path('profile_list/', views.profile_list, name = "profile_list")
+
 ]
