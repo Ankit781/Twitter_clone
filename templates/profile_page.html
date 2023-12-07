@@ -5,15 +5,59 @@
 {%block content %}
 
 {% if profile%}
+ <div class="container text-center">
+    <div class="row">
+        <div class="col-10">
+            <h1> {{ profile.user.username}}'s profile </h1>
+        </div>
 
-<h1> {{ profile.user.username}}'s profile </h1>
 
-<strong> Follows</strong><br/> 
-{% for following in profile.follows.all %}
-    @{{ following }} <br/>
-    
-    {% endfor%}
-<strong> Followed By</strong>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header">
+                  Follows
+                </div>
+                <div class="card-body">
+                  <p class="card-text">
 
+
+                    {% for following in profile.follows.all %}
+                    <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
+                    <br/>
+                    {% endfor %}
+                  </p>
+                </div>    
+            </div>
+<br><br>
+            <div class="card">
+                <div class="card-header">
+                    Followed By
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text">
+                    {% for following in profile.followed_by.all %}
+                    <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
+                    <br/>
+                    {% endfor%}
+                    <br/><br/>
+                  </p>
+                </div>
+              </div>
+            
+              <form method="POST">
+                {% csrf_token %}
+                <br>
+                {% if profile in user.profile.follows.all %}
+                  <button class="btn btn-outline-danger" name="follow" value="unfollow" type="submit">Unfollow @{{ profile.user.username | lower}} </button>
+                  <br>
+                {% else %}
+                  <button class="btn btn-outline-success" name="follow" value="follow" type="submit">Follow @{{ profile.user.username | lower}} </button>
+                {% endif %}
+                </form>
+            
+        </div>
+    </div>
+</div>
 {%endif%}
 {% endblock %}
