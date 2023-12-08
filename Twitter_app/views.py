@@ -1,15 +1,16 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Profile
+from .models import Profile, tweet
 from django.contrib import messages
 # Create your views here.
 
 
 def index(request):
-    # if request.user.is_anonymous:
-    #     return redirect("/login")
-    return render(request, 'index.html', {'profile': profile})
+    if request.user.is_authenticated:
+        tweets = tweet.objects.all().order_by("-created_at")
+        
+    return render(request, 'index.html', {'profile': profile, "tweets": tweets})
 
 
 def login(request):
@@ -37,7 +38,7 @@ def profile_list(request):
 def profile(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id = pk)
-        
+        my_tweets = tweet.objects.filter(user_id = pk).order_by("-created_at")
         #  Post form logic
         if request.method == "POST":
             current_user_profile = request.user.profile
@@ -46,11 +47,11 @@ def profile(request, pk):
         # Decide to follow or Unfollowed
             if action == "unfollow":
                 current_user_profile.follows.remove(profile)
-            elif action == "follows":
+            elif action == "follow":
                 current_user_profile.follows.add(profile)
             current_user_profile.save()
                 
-        return render(request, 'profile_page.html', {'profile': profile})
+        return render(request, 'profile_page.html', {'profile': profile, 'my_tweets': my_tweets})
     else:
         messages.success(request, "You mnust be login to vie this page")
         return redirect('index')    

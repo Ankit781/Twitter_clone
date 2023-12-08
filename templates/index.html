@@ -3,12 +3,17 @@
 
     {%block content %}
 
-    {% if profile%}
-
-    Welcome {{profile.user.username}}
-    <a href="/logout">Logout</a>
-    {% endif%}
     
+    <h1>
+        Tweets
+    </h1>
+    {% for tweet in tweets%}
+    <div class="alert alert-dark" role="alert">
+        {{ tweet }} <br/> <br/>
+      </div>
+        
+    {%  endfor %}
+
     {% endblock%}
 </body>
 
