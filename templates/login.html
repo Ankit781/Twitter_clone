@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="/static/css/twitter.css">
     <meta name="google-signin-client_id"
         content="551743730468-33b1gr7qjovm05lvgvgogmu271qdrqra.apps.googleusercontent.comapps.googleusercontent.com">
+    
     <title>Document</title>
 
 
 </head>
 
 <body>
-
+   
     <div class="twitter">
         <svg viewBox="0 0 24 24" aria-hidden="true"
             class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1nao33i r-rxcuwo r-1777fci r-m327ed r-494qqr">
@@ -44,6 +45,29 @@
             <div class="text">or</div>
             <hr>
         </div>
+
+        <div class="register">
+            <form method="POST" action = "{% url 'loginuser' %}">
+                {% csrf_token%}
+                <div >
+                  <label for="exampleInputEmail1"  style = "color:white;" >Email address</label>
+                  <br>
+                  <input type="text" name = "username" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your username">
+                  <br>
+                  <div id="emailHelp"  style = "color:white;">We'll never share your email with anyone else.</div>
+                </div>
+                <br><br>
+                <div>
+                  <label for="exampleInputPassword1" style = "color:white;">Password</label>
+                  <br>
+                  <input type="password"  id="exampleInputPassword1" name="password" placeholder="Enter your password">
+                </div>
+                <br><br>
+                <button type="submit" class="sub-btn">Submit</button>
+              </form>
+
+        </div>
+
     </div>
 </body>
 

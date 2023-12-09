@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Profile, tweet
 from django.contrib import messages
 from .form import TweetForm
+from django.contrib.auth import backends
 # Create your views here.
 
 
@@ -22,26 +23,32 @@ def index(request):
     return render(request, 'index.html', {'profile': profile})
 
 
-def login(request):
+def loginuser(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
         
-        user = User.authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
-            return redirect("/") 
+            login(request,user)
+            messages.success(request, ("You have been logged in! Get tweeting!"))
+            return redirect("/")  
         else:
-            return render(request, "login.html", {"message": "Invalid credentials."})
-    return render(request, "login.html")  
-
+            return redirect("loginuser")  
+    else:
+        return render(request, "login.html")
 
 def logoutuser(request):
     logout(request)
-    return redirect("login") 
+    return redirect("loginuser") 
 
 def profile_list(request):
-    profiles = Profile.objects.exclude(user = request.user)
-    return render(request, 'profile_list.html', {"profiles": profiles})
+    if request.user.is_authenticated:
+        profiles = Profile.objects.exclude(user = request.user)
+        return render(request, 'profile_list.html', {"profiles": profiles})
+    else:
+        messages.success(request, "You must be login to view this page")
+        return redirect("/")
 
 
 def profile(request, pk):
@@ -62,5 +69,5 @@ def profile(request, pk):
                 
         return render(request, 'profile_page.html', {'profile': profile, 'my_tweets': my_tweets})
     else:
-        messages.success(request, "You mnust be login to vie this page")
+        messages.success(request, "You must be login to view this page")
         return redirect('index')    
