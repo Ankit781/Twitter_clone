@@ -3,17 +3,36 @@
 
     {%block content %}
 
+    <div class="container text-center">
+    <div class="row">
+    <div class="col-9">
     
     <h1>
         Tweets
     </h1>
     {% for tweet in tweets%}
     <div class="alert alert-dark" role="alert">
-        {{ tweet }} <br/> <br/>
+        {{tweet.body}} <br/>
+        <small class="">
+            {{tweet.created_at}} By
+            @{{tweet.user}}
+        </small>
       </div>
         
     {%  endfor %}
+    </div>
+    {%if form%}
+    <div class="col-3">
+        <br><br><br>
+        <form method = "POST">
+            {% csrf_token %}
+            {{form.as_p}}
 
+
+            <button type="submit" class="btn btn-secondary">Tweet!</button>
+          </form>
+    </div>
+    {%endif%}
     {% endblock%}
-</body>
+
 

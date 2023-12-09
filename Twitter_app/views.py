@@ -3,14 +3,23 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Profile, tweet
 from django.contrib import messages
+from .form import TweetForm
 # Create your views here.
 
 
 def index(request):
     if request.user.is_authenticated:
+        form = TweetForm(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                twt = form.save(commit=False) 
+                twt.user = request.user
+                twt.save()
+                messages.success(request, "You tweet has been posted!")
+                return redirect('index')
         tweets = tweet.objects.all().order_by("-created_at")
-        
-    return render(request, 'index.html', {'profile': profile, "tweets": tweets})
+        return render(request, 'index.html', {'profile': profile, "tweets": tweets, 'form': form})
+    return render(request, 'index.html', {'profile': profile})
 
 
 def login(request):

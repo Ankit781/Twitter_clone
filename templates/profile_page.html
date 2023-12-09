@@ -15,7 +15,11 @@
               <br/>  <br/>
               {% for my_tweet in my_tweets %}
               <div class="alert alert-dark" role="alert">
-              {{my_tweet}}<br/><br/>
+                {{my_tweet.body}} <br/>
+                <small class="">
+                    {{my_tweet.created_at}} By
+                    @{{my_tweet.user}}
+                </small>
               </div>
               {%endfor%}
 
