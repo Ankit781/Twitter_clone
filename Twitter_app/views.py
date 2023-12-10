@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Profile, tweet
 from django.contrib import messages
-from .form import TweetForm
+from .form import TweetForm, SignUpForm
 from django.contrib.auth import backends
 # Create your views here.
 
@@ -71,3 +71,26 @@ def profile(request, pk):
     else:
         messages.success(request, "You must be login to view this page")
         return redirect('index')    
+    
+    
+def register(request):
+    form = SignUpForm()
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            # first_name = form.cleaned_data['first_name']
+            # last_name = form.cleaned_data['last_name']
+            # email = form.cleaned_data['email']
+            #  Log in user
+            user = authenticate(username = username , password = password1)
+            login(request,user)
+            messages.success(request, "You have successfully register!")
+            return redirect('index')
+        else:
+            return redirect('register')
+    else:
+        print("HERE")
+        return render(request,"register.html", context= {'form': form})
