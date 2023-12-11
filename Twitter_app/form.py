@@ -20,7 +20,6 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget= forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
     first_name = forms.CharField(label="", max_length= 100, widget= forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First name'}))
     last_name = forms.CharField(label="", max_length= 100, widget= forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last name'}))
-    password1 = forms.PasswordInput
     class Meta:
         model = User
         fields = ('username','first_name', 'last_name','password1','password2')

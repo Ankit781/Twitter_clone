@@ -13,6 +13,9 @@
             <li class="nav-item">
                 <a class="nav-link  text-light" href="{% url 'logoutuser'  %}">Logout</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link  text-light" href="{% url 'update_user'  %}">Update Profile</a>
+            </li>
             {% else %}
             <li class="nav-item">
                 <a class="nav-link  text-light" href="{% url 'loginuser' %}">Login</a>

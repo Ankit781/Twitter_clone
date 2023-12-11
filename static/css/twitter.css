@@ -149,3 +149,8 @@ input{
     border-radius: 5px;
     color: white;
 }
+
+a{
+text-decoration: none;
+color: white;
+}

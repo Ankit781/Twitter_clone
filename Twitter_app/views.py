@@ -90,7 +90,23 @@ def register(request):
             messages.success(request, "You have successfully register!")
             return redirect('index')
         else:
+            messages.success(request, (str(form.errors) + "Something went wrong"))
             return redirect('register')
     else:
-        print("HERE")
         return render(request,"register.html", context= {'form': form})
+    
+    
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id = request.user.id)
+        form = SignUpForm(request.POST or None, instance = current_user)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Your profile has been updated!")
+            return redirect('/')
+        else: 
+            print(form.errors)  
+            return render(request,"update_user.html", {'form': form})
+    else:
+        messages.success(request, "You Must Be Logged In To Update Your Profile!")
+        return redirect('/')
