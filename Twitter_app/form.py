@@ -1,8 +1,16 @@
 from django import forms
-from .models import tweet
+from .models import tweet, Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 
+
+class ProfilePicForm(forms.ModelForm):
+    profile_img = forms.ImageField(label = "Profile Image")
+    
+    class Meta:
+        model = Profile
+        fields = ("profile_img",)
+    
 class TweetForm(forms.ModelForm):
     body = forms.CharField(required=True, widget=forms.widgets.Textarea(
         attrs= {
@@ -41,3 +49,4 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
         self.fields['password2'].label = ''
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+        

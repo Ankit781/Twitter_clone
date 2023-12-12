@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Profile, tweet
 from django.contrib import messages
-from .form import TweetForm, SignUpForm
+from .form import TweetForm, SignUpForm, ProfilePicForm
 from django.contrib.auth import backends
 # Create your views here.
 
@@ -99,14 +99,18 @@ def register(request):
 def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id = request.user.id)
-        form = SignUpForm(request.POST or None, instance = current_user)
-        if form.is_valid():
-            form.save()
+        profile_user = Profile.objects.get(user__id = request.user.id)
+        
+        user_form = SignUpForm(request.POST or None,request.FILES or None, instance = current_user)
+        profile_form = ProfilePicForm(request.POST or None,request.FILES or None, instance = profile_user)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
             messages.success(request,"Your profile has been updated!")
             return redirect('/')
         else: 
-            print(form.errors)  
-            return render(request,"update_user.html", {'form': form})
+            print(user_form.errors)  
+            return render(request,"update_user.html", {'user_form': user_form,'profile_form': profile_form})
     else:
         messages.success(request, "You Must Be Logged In To Update Your Profile!")
         return redirect('/')
