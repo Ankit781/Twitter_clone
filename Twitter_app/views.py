@@ -19,8 +19,11 @@ def index(request):
                 messages.success(request, "You tweet has been posted!")
                 return redirect('index')
         tweets = tweet.objects.all().order_by("-created_at")
-        return render(request, 'index.html', {'profile': profile, "tweets": tweets, 'form': form})
-    return render(request, 'index.html', {'profile': profile})
+        profiles = Profile.objects.all() 
+        print(tweets)
+        print(profiles)
+        return render(request, 'index.html', {'profiles': profiles, "tweets": tweets, 'form': form})
+    return render(request, 'index.html', {})
 
 
 def loginuser(request):

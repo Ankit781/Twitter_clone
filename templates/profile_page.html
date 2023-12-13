@@ -15,12 +15,26 @@
               <br/>  <br/>
               {% for my_tweet in my_tweets %}
               <div class="alert alert-dark" role="alert">
-                {{my_tweet.body}} <br/>
-                <small class="">
-                    {{my_tweet.created_at}} By
-                    @{{my_tweet.user}}
-                </small>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-2">
+                        {% if profile.profile_img %}
+                        <img src="{{profile.profile_img.url}}" class="img-fluid rounded-circle " style="height:50px;width:50px;" alt="profile.user.username">
+                        {%else%}
+                        <img src="{% static 'img/pngtree-default-male-avatar-png-image_2811083.jpg' %}" class="img-fluid rounded-start" alt="...">
+                        {%endif%}
+                      </div>
+                        <div class="col-9">
+                          {{my_tweet.body}} <br/>
+                          <small class="">
+                              {{my_tweet.created_at}} By
+                              @{{my_tweet.user}}
+                          </small>
+                        </div>
+                    </div>
+                  </div>
               </div>
+            
               {%endfor%}
 
 
@@ -31,7 +45,7 @@
         <div class="col-2">
           <br> <br>
           {% if profile.profile_img%}
-          <img src=" {{profile.profile_img.url}}" alt="Profile pic" style="height:150px;width:150px;border-radius:30px;"/>
+          <img src=" {{profile.profile_img.url}}" alt="Profile pic" class="rounded-circle" style="height:150px;width:150px;"/>
           {%endif%}
           <br/><br/>
             <div class="card">

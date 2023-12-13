@@ -12,13 +12,27 @@
     </h1>
     {% for tweet in tweets%}
     <div class="alert alert-dark" role="alert">
-        {{tweet.body}} <br/>
-        <small class="">
-            {{tweet.created_at}} By
-            @{{tweet.user}}
-        </small>
-      </div>
-        
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    {% if profiles%}
+                        {%for profile in profiles%}
+                        {% if tweet.user == profile.user%}
+                    <img src={{profile.profile_img.url}} alt="{{profile.user.username}}  class="img-fluid rounded-circle " style="height:50px;width:50px;"">
+                    {% endif%}
+                    {%endfor%}
+                    {% endif%}
+                </div>
+                    <div class="col-9">
+                        {{tweet.body}} <br/>
+                        <small class="">
+                            {{tweet.created_at}} By
+                            @{{tweet.user}}
+                        </small>
+                </div>
+            </div>
+        </div>
+    </div>
     {%  endfor %}
     </div>
     {%if form%}
