@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Profile, tweet
@@ -20,8 +20,6 @@ def index(request):
                 return redirect('index')
         tweets = tweet.objects.all().order_by("-created_at")
         profiles = Profile.objects.all() 
-        print(tweets)
-        print(profiles)
         return render(request, 'index.html', {'profiles': profiles, "tweets": tweets, 'form': form})
     return render(request, 'index.html', {})
 
@@ -70,7 +68,7 @@ def profile(request, pk):
                 current_user_profile.follows.add(profile)
             current_user_profile.save()
                 
-        return render(request, 'profile_page.html', {'profile': profile, 'my_tweets': my_tweets})
+        return render(request, 'profile_page.html', {'profile': profile, 'my_tweets': my_tweets })
     else:
         messages.success(request, "You must be login to view this page")
         return redirect('index')    
@@ -117,3 +115,25 @@ def update_user(request):
     else:
         messages.success(request, "You Must Be Logged In To Update Your Profile!")
         return redirect('/')
+    
+def tweet_likes(request, pk):
+    if request.user.is_authenticated:
+        tweets = get_object_or_404(tweet, id=pk)
+        if tweets.likes.filter(id = request.user.id):
+            tweets.likes.remove(request.user)
+        else:
+            tweets.likes.add(request.user)
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.success(request, "You Must Be Logged In To Update Your Profile!")
+        return redirect('/')
+    
+def tweet_show(request, pk):
+    if request.user.is_authenticated:
+        twt = get_object_or_404(tweet, id=pk)
+        profiles = Profile.objects.filter(id = twt.user.id)
+        if twt:
+            return render(request, "show_tweet.html", {"tweet":twt, 'profiles': profiles})
+        else:
+            messages.success(request, "This Tweet does not exist!")
+            return redirect('/')
