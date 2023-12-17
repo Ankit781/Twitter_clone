@@ -55,6 +55,21 @@
           <img src=" {{profile.profile_img.url}}" alt="Profile pic" class="rounded-circle" style="height:150px;width:150px;"/>
           {%endif%}
           <br/><br/>
+          {% if profile.homepage_link%}
+          <a href="{{profile.homepage_link}}" ><i class="fa-solid fa-link" style="color:gray"></i></a>
+          {%endif%}
+          &nbsp;&nbsp;
+          {% if profile.instagram_link %}
+          <a href="{{profile.instagram_link}}" target="_blank"><i class="fa-brands fa-instagram" style="color:gray"></i></a>
+          {%endif%}
+          &nbsp;&nbsp;
+          {% if profile.linkedin_link%}
+          <a href="{{profile.linkedin_link}}" target="_blank"><i class="fa-brands fa-linkedin" style="color:gray"></i></a>
+          {%endif%}
+          <br/><br/>
+          {% if profile.profile_bio%}
+          <p> {{profile.profile_bio}}  </p>      
+          {%endif%}
             <div class="card">
                 <div class="card-header">
                   Follows
@@ -65,6 +80,7 @@
 
                     {% for following in profile.follows.all %}
                     <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
+                    <a href="{% url 'unfollow' following.user.id %}"><i class="fa fa-undo" style="color:gray"></i></a>
                     <br/>
                     {% endfor %}
                   </p>

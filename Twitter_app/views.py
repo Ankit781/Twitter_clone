@@ -137,3 +137,17 @@ def tweet_show(request, pk):
         else:
             messages.success(request, "This Tweet does not exist!")
             return redirect('/')
+        
+        
+def unfollow(request,pk):
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user_id = pk)
+        request.user.profile.follows.remove(profile)
+        
+        request.user.profile.save()
+        
+        messages.success(request, f"YouHave Successfully Unfollowed {profile.user.username}.")
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.success(request, "You Must Be Logged In To Update Your Profile!")
+        return redirect('/')
