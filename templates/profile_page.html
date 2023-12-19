@@ -80,7 +80,7 @@
 
                     {% for following in profile.follows.all %}
                     <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
-                    <a href="{% url 'unfollow' following.user.id %}"><i class="fa fa-undo" style="color:gray"></i></a>
+                    <a href="{% url 'unfollow' following.user.id %}"><i class="fa fa fa-user-minus small" style="color:gray"></i></a>
                     <br/>
                     {% endfor %}
                   </p>
@@ -94,11 +94,19 @@
                 <div class="card-body">
                   <h5 class="card-title"></h5>
                   <p class="card-text">
-                    {% for following in profile.followed_by.all %}
-                    <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
+                    {% for following in profile.followed_by.all|slice:3 %}
+                    <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>&nbsp;
+                    {% if following in profile.follows.all%}
+                    <a href="{% url 'unfollow' following.user.id %}"><i class="fa fa-user-minus small" style="color:gray"></i></a> <br/>
+                    {% else %}
+                    <a href="{% url 'follow' following.user.id %}"><i class="fa fa-user-plus small" style="color:gray"></i></a>          
                     <br/>
-                    {% endfor%}
-                    <br/><br/>
+                    {% endif%}
+                    {%endfor%}
+                    <br/><br/> 
+                    <div class="card-footer">
+                      <a href="{% url 'followers' profile.user.id%}">See All...</a>
+                    </div>
                   </p>
                 </div>
               </div>

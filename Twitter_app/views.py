@@ -151,3 +151,28 @@ def unfollow(request,pk):
     else:
         messages.success(request, "You Must Be Logged In To Update Your Profile!")
         return redirect('/')
+
+def follow(request,pk):
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user_id = pk)
+        request.user.profile.follows.add(profile)
+        
+        request.user.profile.save()
+        
+        messages.success(request, f"YouHave Successfully followed {profile.user.username}.")
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.success(request, "You Must Be Logged In To Update Your Profile!")
+        return redirect('/')
+    
+def followers(request,pk):
+    if request.user.is_authenticated:
+        if request.user.id == pk:
+            profiles = Profile.objects.get(user_id = pk)
+            return render(request, 'followers.html', {"profiles": profiles})
+        else:
+            messages.success(request, "That's not your profile page. ")
+            return redirect("/")
+    else:
+        messages.success(request, "You must be login to view this page")
+        return redirect("/")

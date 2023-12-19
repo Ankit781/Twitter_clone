@@ -34,7 +34,7 @@
                 {% if user.profile.profile_img %}
                <a href="{% url 'profile' request.user.id %}"> <img src={{user.profile.profile_img.url}} alt="{{profile.user.username}}"  class="img-fluid rounded-circle " style="height:50px;width:50px;"/></a>
                {%else%}
-               <img src="{% static 'img/pngtree-default-male-avatar-png-image_2811083.jpg' %}" class="img-fluid rounded-circle" alt="..." style="height:40px;width:40px;">
+               <a href="{% url 'profile' request.user.id %}"><img src="{% static 'img/pngtree-default-male-avatar-png-image_2811083.jpg' %}" class="img-fluid rounded-circle" alt="..." style="height:40px;width:40px;"></a>
                {%endif%}
             </li>
         </ul>
