@@ -176,3 +176,53 @@ def followers(request,pk):
     else:
         messages.success(request, "You must be login to view this page")
         return redirect("/")
+
+
+def follows(request,pk):
+    if request.user.is_authenticated:
+        if request.user.id == pk:
+            profiles = Profile.objects.get(user_id = pk)
+            return render(request, 'follows.html', {"profiles": profiles})
+        else:
+            messages.success(request, "That's not your profile page. ")
+            return redirect("/")
+    else:
+        messages.success(request, "You must be login to view this page")
+        return redirect("/")
+    
+    
+def delete_tweet(request,pk):
+    if request.user.is_authenticated:
+        twt = get_object_or_404(tweet, id=pk)
+        if request.user.username == twt.user.username:
+            twt.delete()
+            messages.success(request, "The tweet has been deleted.")
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.success(request, "Not your tweet")
+            return redirect("/")
+    else:
+        messages.success(request, "You must be login to delete this tweet!")
+        return redirect(request.META.get('HTTP_REFERER'))
+ 
+    
+def edit_tweet(request,pk):
+    if request.user.is_authenticated:
+        twt = get_object_or_404(tweet, id=pk)
+        if request.user.username == twt.user.username:
+            form = TweetForm(request.POST or None, instance = twt)
+            if request.method == "POST":
+                if form.is_valid():
+                    twt = form.save(commit=False) 
+                    twt.user = request.user
+                    twt.save()
+                    messages.success(request, "You tweet has been Updated !")
+                    return redirect('index')
+            else:
+                return render(request,"edit_tweet.html", {'form': form,"tweet":twt})
+        else:
+            messages.success(request, "Not your tweet")
+            return redirect("/")        
+    else:
+        messages.success(request, "You must be login to edit this tweet!")
+        return redirect(request.META.get('HTTP_REFERER'))
