@@ -226,3 +226,15 @@ def edit_tweet(request,pk):
     else:
         messages.success(request, "You must be login to edit this tweet!")
         return redirect(request.META.get('HTTP_REFERER'))
+    
+    
+def search(request):
+    if request.method == "POST":
+        search = request.POST["search"]
+        #  Search for tweet
+        searched = tweet.objects.filter(body__contains = search)
+        profiles = Profile.objects.all() 
+        return render(request, "search.html", {"search":search, "searched":searched, "profiles":profiles})
+    else:
+        return render(request, "search.html", {})
+    
