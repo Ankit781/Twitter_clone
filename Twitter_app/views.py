@@ -238,3 +238,15 @@ def search(request):
     else:
         return render(request, "search.html", {})
     
+    
+    
+def search_user(request):
+    if request.method == "POST":
+        search = request.POST["search"]
+        #  Search for tweet
+        searched = User.objects.filter(username__contains = search)
+        profiles = Profile.objects.all() 
+        return render(request, "search_user.html", {"search":search, "searched":searched, "profiles":profiles})
+    else:
+        return render(request, "search_user.html", {})
+    
