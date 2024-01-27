@@ -32,7 +32,11 @@
                                 {% if profiles%}
                                     {%for profile in profiles%}
                                     {% if tweet.user == profile.user%}
-                                <img src={{profile.profile_img.url}} alt="{{profile.user.username}}"  class="img-fluid rounded-circle " style="height:50px;width:50px;"/>
+                                    {% if profile.profile_img %}
+                                    <img src="{{profile.profile_img.url}}" class="img-fluid rounded-circle "  alt="profile.user.username">
+                                {%else%}
+                                    <img src="{% static 'img/pngtree-default-male-avatar-png-image_2811083.jpg' %}" class="img-fluid rounded-circle" style="height:50px;width:50px;" alt="...">
+                                {%endif%}
                                 {% endif%}
                                 {%endfor%}
                                 {% endif%}

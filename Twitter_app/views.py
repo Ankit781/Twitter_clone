@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -10,6 +11,8 @@ from django.contrib.auth import backends
 
 def index(request):
     if request.user.is_authenticated:
+        print("Print cookies:")
+        print(request.COOKIES)
         form = TweetForm(request.POST or None)
         if request.method == "POST":
             if form.is_valid():

@@ -7,56 +7,65 @@
     <div class="row">
     <div class="col-9">
     
-    <h1>
-        Tweets
-    </h1>
-    {% for tweet in tweets%}
-    <div class="alert alert-dark" role="alert">
-        <div class="container">
-            <div class="row">
-                <div class="col-2">
-                    {% if profiles%}
-                        {%for profile in profiles%}
-                        {% if tweet.user == profile.user%}
-                    <img src={{profile.profile_img.url}} alt="{{profile.user.username}}"  class="img-fluid rounded-circle " style="height:50px;width:50px;"/>
-                    {% endif%}
-                    {%endfor%}
-                    {% endif%}
-                </div>
-                    <div class="col-9">
-                        {{tweet.body}} <br/>
-                        <small>
-                            {{tweet.created_at}} By
-                            @{{tweet.user}}
-                            {% if user not in tweet.likes.all %}
-                                - {{tweet.number_of_likes}} <a href="{% url 'tweet_likes' tweet.id %}"> <img src="{% static 'img/like_button.png'%}" style="height:20px;width:20px;margin-bottom:6px;"/></a>
-                            {%else %}
-                                - {{tweet.number_of_likes}} <a href="{% url 'tweet_likes' tweet.id %}"> <img src="{% static 'img/dislike_button.png'%}" style="height:20px;width:20px;"/></a>
-                            {%endif%}
-                            &nbsp; &nbsp;
-                            <a href="{% url 'tweet_show' tweet.id %}" > <i class="fa-solid fa-share" style="color:black;"></i> </a>
+        
 
-                        </small>
+    {% if tweets%}
+        {% for tweet in tweets%}
+        <div class="alert alert-dark" role="alert">
+            <div class="container">
+                <div class="row">
+                    <div class="col-2">
+                        {% if profiles%}
+                            {%for profile in profiles%}
+                                {% if tweet.user == profile.user%}
+                                    {% if profile.profile_img %}
+                                        <img src="{{profile.profile_img.url}}" class="img-fluid rounded-circle " style="height:50px;width:50px;" alt="profile.user.username">
+                                    {%else%}
+                                        <img src="{% static 'img/pngtree-default-male-avatar-png-image_2811083.jpg' %}" class="img-fluid rounded-circle" style="height:50px;width:50px;" alt="...">
+                                    {%endif%}
+                                {% endif%}
+                            {%endfor%}
+                        {% endif%}
+                    </div>
+                        <div class="col-9">
+                            {{tweet.body}} <br/>
+                            <small>
+                                {{tweet.created_at}} By
+                                @{{tweet.user}}
+                                {% if user not in tweet.likes.all %}
+                                    - {{tweet.number_of_likes}} <a href="{% url 'tweet_likes' tweet.id %}"> <img src="{% static 'img/like_button.png'%}" style="height:20px;width:20px;margin-bottom:6px;"/></a>
+                                {%else %}
+                                    - {{tweet.number_of_likes}} <a href="{% url 'tweet_likes' tweet.id %}"> <img src="{% static 'img/dislike_button.png'%}" style="height:20px;width:20px;"/></a>
+                                {%endif%}
+                                &nbsp; &nbsp;
+                                <a href="{% url 'tweet_show' tweet.id %}" > <i class="fa-solid fa-share" style="color:black;"></i> </a>
+
+                            </small>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {%  endfor %}
-    </div>
-    {%if form%}
-    <div class="col-3">
-        <br><br><br>
-        <form method = "POST">
-            {% csrf_token %}
-            {{form.as_p}}
+        {%  endfor %}
+        </div>
+        {%if form%}
+        <div class="col-3">
+            <br><br><br>
+            <form method = "POST">
+                {% csrf_token %}
+                {{form.as_p}}
 
 
-            <button type="submit" class="btn btn-secondary">Tweet!</button>
-          </form>
-    </div>
-    </div>
-    </div>
-    
+                <button type="submit" class="btn btn-secondary">Tweet!</button>
+            </form>
+        </div>
+        </div>
+        </div>
+        
+        {%endif%}
+    {% else %}
+        <h1>
+            Nothing to show you must Login to see the tweets!
+        </h1>
     {%endif%}
     
     {% endblock%}
